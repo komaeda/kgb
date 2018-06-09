@@ -1,0 +1,8 @@
+[package]
+name = "meow"
+version = "0.1.0"
+authors = ["Olivia Hugger <olivia@fastmail.com>"]
+description = "Experimental static site generator"
+
+[dependencies]
+nya = "0.4.0"
