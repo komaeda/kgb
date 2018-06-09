@@ -6,3 +6,4 @@ description = "Experimental static site generator"
 
 [dependencies]
 nya = "0.4.0"
+comrak = "0.2.12"
