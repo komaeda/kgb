@@ -29,6 +29,6 @@ fn run(source: &str, destination: &str) {
 
 #[test]
 fn test() {
-    run("src/example", "_site");
+    run("example", "_site");
     assert!(true);
 }
