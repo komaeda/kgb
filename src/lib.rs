@@ -11,6 +11,7 @@ mod util;
 fn run(source: &str, destination: &str) {
     nya::run(
         vec![
+            frontmatter::middleware(),
             markdown::middleware(),
         ],
         Some(source),
