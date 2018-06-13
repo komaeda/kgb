@@ -7,3 +7,4 @@ description = "Experimental static site generator"
 [dependencies]
 nya = "0.5.0"
 comrak = "0.2.12"
+yaml-rust = "0.4.0"
