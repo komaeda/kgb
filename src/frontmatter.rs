@@ -1,6 +1,6 @@
 extern crate yaml_rust;
 
-use yaml_rust::{Yaml, YamlLoader};
+use yaml_rust::{Yaml, YamlLoader, YamlEmitter};
 use nya::{create_middleware, SimpleFile};
 
 pub fn middleware() -> Box<FnMut(&mut Vec<SimpleFile>)> {
@@ -28,7 +28,16 @@ pub fn lexer(text: String) -> Option<(String, String)> {
     }
 }
 
-pub fn parser(matter: String) -> Vec<Yaml> {
+pub fn serialize(matter: &Vec<Yaml>) -> String {
+    let mut out_str = String::new();
+    {
+        let mut emitter = YamlEmitter::new(&mut out_str);
+        emitter.dump(&matter[0]).unwrap();
+    }
+    out_str
+}
+
+pub fn deserialize(matter: &String) -> Vec<Yaml> {
     YamlLoader::load_from_str(matter.as_str()).unwrap()
 }
 
@@ -41,9 +50,12 @@ fn lexer_test() {
 }
 
 #[test]
-fn parser_test() {
+fn serializer_test() {
     let text = "---\nfoo: bar\n---\n\nContent";
     let (matter, _) = lexer(text.to_string()).unwrap();
-    let yaml = parser(matter);
-    assert_eq!(yaml[0]["foo"].as_str().unwrap(), "bar".to_string());
+    let dese = deserialize(&matter);
+    println!("{:?}", dese);
+    let se = serialize(&dese);
+    assert_eq!(dese[0]["foo"].as_str().unwrap(), "bar");
+    assert_eq!(se, "---\nfoo: bar");
 }
