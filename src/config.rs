@@ -1,11 +1,11 @@
 extern crate serde;
 extern crate toml;
 
-use std::io;
-use std::fs::File;
-use std::path::{Path, PathBuf};
 use std::ffi::OsStr;
+use std::fs::File;
+use std::io;
 use std::io::prelude::*;
+use std::path::{Path, PathBuf};
 
 #[derive(Deserialize)]
 pub struct Config {
@@ -15,7 +15,7 @@ pub struct Config {
 
 pub fn read_config(source: &str) -> io::Result<Config> {
     let file_name = OsStr::new("_config.toml");
-    let path: PathBuf = Path::new(source).join(file_name); 
+    let path: PathBuf = Path::new(source).join(file_name);
     let mut file = File::open(path)?;
     let mut contents = String::new();
     file.read_to_string(&mut contents)?;

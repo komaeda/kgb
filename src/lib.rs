@@ -9,10 +9,10 @@ extern crate serde;
 extern crate toml;
 extern crate yaml_rust;
 
+mod config;
 mod frontmatter;
 mod markdown;
 mod util;
-mod config;
 
 fn run(source: &str) {
     let config = config::read_config(source).unwrap();
