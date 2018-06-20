@@ -4,9 +4,9 @@ extern crate toml;
 extern crate serde;
 
 use toml::Value;
-use nya::{create_middleware, SimpleFile};
+use nya::{create_middleware, SimpleFile, MiddlewareFunction};
 
-pub fn middleware() -> Box<FnMut(&mut Vec<SimpleFile>)> {
+pub fn middleware() -> MiddlewareFunction {
   create_middleware(|files: &mut Vec<SimpleFile>| {
     // do stuff here
   });

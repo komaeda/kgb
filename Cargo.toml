@@ -3,9 +3,10 @@ authors = ["Olivia Hugger <olivia@fastmail.com>"]
 description = "Experimental static site generator"
 name = "meow"
 version = "0.1.0"
+
 [dependencies]
 comrak = "0.2.12"
-nya = "0.5.0"
+nya = "0.5.1"
 serde = "*"
 serde_derive = "*"
 toml = "*"
