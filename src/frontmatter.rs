@@ -1,5 +1,3 @@
-extern crate yaml_rust;
-
 use nya::{create_middleware, MiddlewareFunction, SimpleFile};
 use yaml_rust::{Yaml, YamlEmitter, YamlLoader};
 

@@ -1,6 +1,5 @@
-extern crate comrak;
-
 use nya::{create_middleware, SimpleFile};
+use comrak;
 use util;
 
 pub fn middleware() -> Box<FnMut(&mut Vec<SimpleFile>)> {

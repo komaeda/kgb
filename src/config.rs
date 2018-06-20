@@ -1,11 +1,9 @@
-extern crate serde;
-extern crate toml;
-
 use std::ffi::OsStr;
 use std::fs::File;
 use std::io;
 use std::io::prelude::*;
 use std::path::{Path, PathBuf};
+use toml;
 
 #[derive(Deserialize)]
 pub struct Config {
