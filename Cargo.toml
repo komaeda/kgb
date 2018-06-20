@@ -1,10 +1,12 @@
 [package]
-name = "meow"
-version = "0.1.0"
 authors = ["Olivia Hugger <olivia@fastmail.com>"]
 description = "Experimental static site generator"
-
+name = "meow"
+version = "0.1.0"
 [dependencies]
-nya = "0.5.0"
 comrak = "0.2.12"
+nya = "0.5.0"
+serde = "*"
+serde_derive = "*"
+toml = "*"
 yaml-rust = "0.4.0"

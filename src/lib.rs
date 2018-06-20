@@ -3,6 +3,9 @@
 extern crate comrak;
 extern crate nya;
 extern crate yaml_rust;
+extern crate serde;
+extern crate toml;
+extern crate serde_derive;
 
 mod frontmatter;
 mod markdown;
