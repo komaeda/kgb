@@ -1,9 +1,9 @@
 extern crate yaml_rust;
 
-use yaml_rust::{Yaml, YamlLoader, YamlEmitter};
-use nya::{create_middleware, SimpleFile};
+use nya::{create_middleware, MiddlewareFunction, SimpleFile};
+use yaml_rust::{Yaml, YamlEmitter, YamlLoader};
 
-pub fn middleware() -> Box<FnMut(&mut Vec<SimpleFile>)> {
+pub fn middleware() -> MiddlewareFunction {
     create_middleware(|files: &mut Vec<SimpleFile>| {
         for file in files {
             let lex = lexer(file.content.clone());
@@ -20,11 +20,14 @@ pub fn lexer(text: String) -> Option<(String, String)> {
         true => {
             let slice_after_marker = &text[4..];
             let marker_end = slice_after_marker.find("---\n").unwrap();
-            let yaml_slice = &text[4..marker_end+4];
-            let content_slice = &text[marker_end+2*4..];
-            Some((yaml_slice.trim().to_string(), content_slice.trim().to_string()))
-        },
-        false => None
+            let yaml_slice = &text[4..marker_end + 4];
+            let content_slice = &text[marker_end + 2 * 4..];
+            Some((
+                yaml_slice.trim().to_string(),
+                content_slice.trim().to_string(),
+            ))
+        }
+        false => None,
     }
 }
 
