@@ -1,8 +1,8 @@
-use nya::{create_middleware, SimpleFile};
 use comrak;
+use nya::{create_middleware, MiddlewareFunction, SimpleFile};
 use util;
 
-pub fn middleware() -> Box<FnMut(&mut Vec<SimpleFile>)> {
+pub fn middleware() -> MiddlewareFunction {
     create_middleware(|files: &mut Vec<SimpleFile>| {
         for file in files {
             if util::ext_matches(file, ".md") {
