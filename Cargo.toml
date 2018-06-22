@@ -7,7 +7,7 @@ license = "AGPL-3.0+"
 
 [dependencies]
 comrak = "0.2.12"
-nya = "0.5.1"
+nya = "0.5.2"
 serde = "1.0.66"
 serde_derive = "1.0.66"
 toml = "0.4.6"
