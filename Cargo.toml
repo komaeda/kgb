@@ -3,6 +3,7 @@ authors = ["Olivia Hugger <olivia@fastmail.com>"]
 description = "Experimental static site generator"
 name = "kg"
 version = "0.0.1"
+license = "AGPL-3.0+"
 
 [dependencies]
 comrak = "0.2.12"
