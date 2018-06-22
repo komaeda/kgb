@@ -1,8 +1,8 @@
 [package]
 authors = ["Olivia Hugger <olivia@fastmail.com>"]
 description = "Experimental static site generator"
-name = "meow"
-version = "0.1.0"
+name = "kg"
+version = "0.0.1"
 
 [dependencies]
 comrak = "0.2.12"
