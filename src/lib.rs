@@ -14,7 +14,7 @@ mod frontmatter;
 mod markdown;
 mod util;
 
-fn run(source: &str) {
+pub fn run(source: &str) {
     let config = config::read_config(source).unwrap();
     let destination = config.destination.unwrap_or("_site".to_string());
     nya::run(
@@ -22,10 +22,4 @@ fn run(source: &str) {
         Some(source),
         Some(destination.as_str()),
     ).unwrap();
-}
-
-#[test]
-fn test() {
-    run("example");
-    assert!(true);
 }
