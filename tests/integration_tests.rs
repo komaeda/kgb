@@ -1,13 +1,13 @@
 extern crate kg;
 
-use std::path::Path;
 use std::fs::remove_dir_all;
+use std::path::Path;
 
 fn teardown(dirname: &str) {
     match remove_dir_all(dirname) {
         Err(e) => {
             panic!("Error: {}", e.to_string());
-        },
+        }
         _ => (),
     }
 }
