@@ -4,11 +4,8 @@ use std::fs::remove_dir_all;
 use std::path::Path;
 
 fn teardown(dirname: &str) {
-    match remove_dir_all(dirname) {
-        Err(e) => {
-            panic!("Error: {}", e.to_string());
-        }
-        _ => (),
+    if let Err(e) = remove_dir_all(dirname) {
+        panic!("Error: {}", e.to_string());
     }
 }
 
