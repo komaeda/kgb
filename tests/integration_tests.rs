@@ -16,3 +16,11 @@ fn basic() {
     assert!(txt_path.is_file());
     teardown("_site");
 }
+
+#[test]
+fn markdown() {
+    kg::run("fixtures/markdown");
+    let html_path = Path::new("fixtures/out/markdown/cool.html");
+    assert!(html_path.is_file());
+    teardown("fixtures/out/markdown");
+}
