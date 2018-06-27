@@ -24,3 +24,9 @@ fn markdown() {
     assert!(html_path.is_file());
     teardown("fixtures/out/markdown");
 }
+
+#[test]
+fn layouts() {
+    kg::run("fixtures/layouts");
+    assert!(false);
+}

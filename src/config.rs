@@ -8,7 +8,7 @@ use toml;
 #[derive(Deserialize)]
 pub struct Config {
     pub name: String,
-    pub destination: Option<String>,
+    pub destination: Option<PathBuf>,
 }
 
 pub fn read_config(source: &str) -> io::Result<Config> {
