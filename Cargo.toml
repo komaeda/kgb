@@ -6,10 +6,10 @@ version = "0.0.1"
 license = "AGPL-3.0+"
 
 [dependencies]
-comrak = "0.2.12"
+comrak = "0.2.13"
 nya = "0.5.2"
-serde = "1.0.66"
-serde_derive = "1.0.66"
+serde = "1.0.67"
+serde_derive = "1.0.67"
 toml = "0.4.6"
 yaml-rust = "0.4.0"
 handlebars = "0.32.4"

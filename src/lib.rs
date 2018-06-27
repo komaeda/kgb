@@ -20,13 +20,12 @@ mod util;
 
 pub fn run(source: &str) {
     let config = config::read_config(source).unwrap();
-    let mut hbars = handlebars::Handlebars::new();
     let default_dest = std::path::PathBuf::from("_site");
     let destination = config.destination.as_ref().unwrap_or(&default_dest);
     nya::run(
         vec![
             frontmatter::middleware(),
-            layouts::register_mw(&mut hbars, &config),
+            layouts::middleware(&config),
             markdown::middleware(),
         ],
         Some(source),
