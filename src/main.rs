@@ -24,7 +24,7 @@ use clap::{App, Arg};
 
 fn main() {
     let matches = App::new("kg")
-        .version("0.0.2")
+        .version("0.0.3")
         .author("Olivia Hugger <olivia@fastmail.com>")
         .about("A static site generator")
         .arg(
