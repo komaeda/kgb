@@ -5,6 +5,7 @@ extern crate serde_derive;
 #[macro_use]
 extern crate serde_json;
 
+extern crate clap;
 extern crate comrak;
 extern crate handlebars;
 extern crate nya;
@@ -19,7 +20,22 @@ mod layouts;
 mod markdown;
 mod util;
 
-pub fn run(source: &str) {
+use clap::{App, Arg};
+
+fn main() {
+    let matches = App::new("kg")
+        .version("0.0.2")
+        .author("Olivia Hugger <olivia@fastmail.com>")
+        .about("A static site generator")
+        .arg(
+            Arg::with_name("SOURCE")
+                .help("The file source you want to use")
+                .required(true)
+                .index(1),
+        )
+        .get_matches();
+
+    let source = matches.value_of("SOURCE").unwrap();
     let config = config::read_config(source).unwrap();
     let default_dest = std::path::PathBuf::from("_site");
     let destination = config.destination.as_ref().unwrap_or(&default_dest);

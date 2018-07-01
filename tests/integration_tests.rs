@@ -1,5 +1,6 @@
-extern crate kg;
+extern crate assert_cli;
 
+use assert_cli::Assert;
 use std::fs::remove_dir_all;
 use std::fs::File;
 use std::io::prelude::*;
@@ -13,7 +14,9 @@ fn teardown(dirname: &str) {
 
 #[test]
 fn basic() {
-    kg::run("fixtures/basic");
+    Assert::main_binary()
+        .with_args(&["fixtures/basic"])
+        .unwrap();
     let txt_path = Path::new("_site/test.txt");
     assert!(txt_path.is_file());
     teardown("_site");
@@ -21,7 +24,9 @@ fn basic() {
 
 #[test]
 fn markdown() {
-    kg::run("fixtures/markdown");
+    Assert::main_binary()
+        .with_args(&["fixtures/markdown"])
+        .unwrap();
     let html_path = Path::new("fixtures/out/markdown/cool.html");
     assert!(html_path.is_file());
     teardown("fixtures/out/markdown");
@@ -29,7 +34,9 @@ fn markdown() {
 
 #[test]
 fn layouts() {
-    kg::run("fixtures/layouts");
+    Assert::main_binary()
+        .with_args(&["fixtures/layouts"])
+        .unwrap();
     let layouts_path = Path::new("fixtures/out/layouts/_layouts/hello.hbs");
     assert!(!layouts_path.is_file());
 
