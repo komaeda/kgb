@@ -8,7 +8,6 @@ use std::path::PathBuf;
 pub fn middleware(_config: &Config) -> MiddlewareFunction {
     create_middleware(|files: &mut Vec<SimpleFile>| {
         let mut hbars = Handlebars::new();
-        let mut items_to_remove: Vec<usize> = Vec::new();
         {
             let layout_files = files
                 .iter()
@@ -16,12 +15,10 @@ pub fn middleware(_config: &Config) -> MiddlewareFunction {
             for file in layout_files {
                 let template_name = &file.rel_path.file_stem().unwrap().to_str().unwrap();
                 hbars.register_template_string(template_name, &file.content).unwrap();
-                let index = files.iter().position(|e| e == file).unwrap();
-                items_to_remove.push(index);
             }
         }
 
-        for file in &mut files.clone() {
+        for file in files {
             let fm = file.metadata.get("frontmatter");
             if let Some(frontmatter) = fm {
                 let de = deserialize(frontmatter);
@@ -29,10 +26,6 @@ pub fn middleware(_config: &Config) -> MiddlewareFunction {
                     file.content = hbars.render(e.as_str().unwrap(), &json!({"content": file.content})).unwrap();
                 }
             }
-        }
-
-        for index in items_to_remove {
-            files.remove(index);
         }
     })
 }

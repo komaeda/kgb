@@ -17,6 +17,7 @@ mod frontmatter;
 mod layouts;
 mod markdown;
 mod util;
+mod cleanup;
 
 pub fn run(source: &str) {
     let config = config::read_config(source).unwrap();
@@ -27,6 +28,7 @@ pub fn run(source: &str) {
             frontmatter::middleware(),
             layouts::middleware(&config),
             markdown::middleware(),
+            cleanup::middleware(),
         ],
         Some(source),
         Some(destination.to_str().unwrap()),
