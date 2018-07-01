@@ -1,9 +1,9 @@
 extern crate kg;
 
 use std::fs::remove_dir_all;
-use std::path::Path;
 use std::fs::File;
 use std::io::prelude::*;
+use std::path::Path;
 
 fn teardown(dirname: &str) {
     if let Err(e) = remove_dir_all(dirname) {
