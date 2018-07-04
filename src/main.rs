@@ -21,6 +21,7 @@ mod markdown;
 mod util;
 
 use clap::{App, Arg};
+use std::path::PathBuf;
 
 fn main() {
     let matches = App::new("kg")
@@ -37,7 +38,7 @@ fn main() {
 
     let source = matches.value_of("SOURCE").unwrap();
     let config = config::read_config(source).unwrap();
-    let default_dest = std::path::PathBuf::from("_site");
+    let default_dest = PathBuf::from("_site");
     let destination = config.destination.as_ref().unwrap_or(&default_dest);
     nya::run(
         vec![
