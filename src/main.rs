@@ -29,7 +29,7 @@ fn main() {
         .about("A static site generator")
         .arg(
             Arg::with_name("SOURCE")
-                .help("The file source you want to use")
+                .help("The source directory to generate a site from")
                 .required(true)
                 .index(1),
         )
