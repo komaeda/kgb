@@ -16,7 +16,7 @@ features = ["toml"]
 
 [dependencies]
 comrak = "0.2.13"
-nya = "0.5.3"
+nya = "0.6.0"
 serde = "1.0.67"
 serde_derive = "1.0.67"
 yaml-rust = "0.4.0"

@@ -46,3 +46,14 @@ fn layouts() {
     assert_eq!(html_contents, "test\n\ncool! hello");
     teardown("fixtures/out/layouts");
 }
+
+#[test]
+fn ignore() {
+    Assert::main_binary()
+        .with_args(&["fixtures/ignore"])
+        .unwrap();
+    
+    let html_path = Path::new("fixtures/out/ignore/cool.html");
+    assert!(!html_path.is_file());
+    teardown("fixtures/out/ignore");
+}
