@@ -1,7 +1,9 @@
 #[macro_use]
 extern crate serde_json;
 
+#[macro_use]
 extern crate clap;
+
 extern crate comrak;
 extern crate config;
 extern crate handlebars;
@@ -20,7 +22,7 @@ use std::path::PathBuf;
 
 fn main() {
     let matches = App::new("kg")
-        .version("0.0.4")
+        .version(crate_version!())
         .author("Olivia Hugger <olivia@fastmail.com>")
         .about("A static site generator")
         .arg(
