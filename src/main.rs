@@ -9,7 +9,6 @@ extern crate comrak;
 extern crate handlebars;
 extern crate nya;
 extern crate serde;
-extern crate toml;
 extern crate yaml_rust;
 
 mod cleanup;
