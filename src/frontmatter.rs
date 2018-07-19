@@ -29,6 +29,7 @@ pub fn lexer(text: String) -> Option<(String, String)> {
     }
 }
 
+#[allow(dead_code)]
 pub fn serialize(matter: &Vec<Yaml>) -> String {
     let mut out_str = String::new();
     {
