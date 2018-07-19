@@ -1,11 +1,10 @@
-use config::Config;
 use frontmatter::deserialize;
 use handlebars::Handlebars;
 use nya::{create_middleware, MiddlewareFunction, SimpleFile};
 use util::path_includes;
 use yaml_rust::Yaml;
 
-pub fn middleware(_config: &Config) -> MiddlewareFunction {
+pub fn middleware() -> MiddlewareFunction {
     create_middleware(|files: &mut Vec<SimpleFile>| {
         let mut hbars = Handlebars::new();
         {

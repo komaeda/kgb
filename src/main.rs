@@ -1,11 +1,10 @@
 #![allow(dead_code)]
 
 #[macro_use]
-extern crate serde_derive;
-#[macro_use]
 extern crate serde_json;
 
 extern crate clap;
+extern crate config;
 extern crate comrak;
 extern crate handlebars;
 extern crate nya;
@@ -14,7 +13,6 @@ extern crate toml;
 extern crate yaml_rust;
 
 mod cleanup;
-mod config;
 mod frontmatter;
 mod layouts;
 mod markdown;
@@ -37,13 +35,18 @@ fn main() {
         .get_matches();
 
     let source = matches.value_of("SOURCE").unwrap();
-    let config = config::read_config(source).unwrap();
+    
+    let mut confpath = PathBuf::from(source);
+    confpath.push("_config.toml");
+    let mut config = config::Config::default();
+    config.merge(config::File::with_name(confpath.to_str().unwrap())).unwrap();
+
     let default_dest = PathBuf::from("_site");
-    let destination = config.destination.as_ref().unwrap_or(&default_dest);
+    let destination = config.get::<PathBuf>("destination").unwrap_or(default_dest);
     nya::run(
         vec![
             frontmatter::middleware(),
-            layouts::middleware(&config),
+            layouts::middleware(),
             markdown::middleware(),
             cleanup::middleware(),
         ],
