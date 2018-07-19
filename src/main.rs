@@ -4,8 +4,8 @@
 extern crate serde_json;
 
 extern crate clap;
-extern crate config;
 extern crate comrak;
+extern crate config;
 extern crate handlebars;
 extern crate nya;
 extern crate serde;
@@ -34,11 +34,13 @@ fn main() {
         .get_matches();
 
     let source = matches.value_of("SOURCE").unwrap();
-    
+
     let mut confpath = PathBuf::from(source);
     confpath.push("_config.toml");
     let mut config = config::Config::default();
-    config.merge(config::File::with_name(confpath.to_str().unwrap())).unwrap();
+    config
+        .merge(config::File::with_name(confpath.to_str().unwrap()))
+        .unwrap();
 
     let default_dest = PathBuf::from("_site");
     let destination = config.get::<PathBuf>("destination").unwrap_or(default_dest);
