@@ -6,18 +6,18 @@ extern crate clap;
 
 extern crate comrak;
 extern crate config;
+extern crate fluent;
 extern crate handlebars;
 extern crate nya;
 extern crate serde;
 extern crate yaml_rust;
-extern crate fluent;
 
 mod cleanup;
 mod frontmatter;
+mod hbars;
 mod layouts;
 mod markdown;
 mod util;
-mod hbars;
 
 use clap::{App, Arg};
 use std::path::PathBuf;

@@ -73,9 +73,7 @@ fn basic_handlebars() {
 
 #[test]
 fn i18n() {
-    Assert::main_binary()
-        .with_args(&["fixtures/i18n"])
-        .unwrap();
+    Assert::main_binary().with_args(&["fixtures/i18n"]).unwrap();
 
     let de_path = Path::new("fixtures/out/i18n/de/main.html");
     let en_path = Path::new("fixtures/out/i18n/en/main.html");

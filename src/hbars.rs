@@ -1,16 +1,18 @@
+use config::Config;
+use fluent::MessageContext;
 use handlebars::Handlebars;
 use nya::{create_middleware, MiddlewareFunction, SimpleFile};
-use util::{ext_matches, rename_ext};
-use config::Config;
-use std::ffi::OsString;
-use fluent::MessageContext;
 use std::collections::HashMap;
+use std::ffi::OsString;
 use std::path::PathBuf;
+use util::{ext_matches};
 
 pub fn middleware(config: Config) -> MiddlewareFunction {
     create_middleware(move |files: &mut Vec<SimpleFile>| {
         let mut hbars = Handlebars::new();
-        let locales = config.get::<Vec<String>>("locales").unwrap_or(vec![String::from("en")]);
+        let locales = config
+            .get::<Vec<String>>("locales")
+            .unwrap_or(vec![String::from("en")]);
         let mut ctxmap: HashMap<&str, MessageContext> = HashMap::new();
         if locales.len() == 1 {
             let ctx = MessageContext::new(&[]);
@@ -18,7 +20,9 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
         } else {
             for (i, locale) in locales.iter().enumerate() {
                 let mut ctx = MessageContext::new(&[]);
-                let locale_file = files.iter().find(|&f| f.name == OsString::from(format!("{}.ftl", locale)));
+                let locale_file = files
+                    .iter()
+                    .find(|&f| f.name == OsString::from(format!("{}.ftl", locale)));
                 if let Some(f) = locale_file {
                     ctx.add_messages(&f.content);
                 }
@@ -30,7 +34,9 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
 
         for file in &mut files.clone() {
             if ext_matches(file, "hbs") || ext_matches(file, "html") {
-                let name = config.get::<String>("name").unwrap_or("My Site".to_string());
+                let name = config
+                    .get::<String>("name")
+                    .unwrap_or("My Site".to_string());
                 let meta = json!({
                     "site": {
                         "name": name,
@@ -38,7 +44,9 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
                 });
 
                 if ctxmap.len() == 1 {
-                    hbars.register_template_string(file.name.to_str().unwrap(), &file.content).unwrap();
+                    hbars
+                        .register_template_string(file.name.to_str().unwrap(), &file.content)
+                        .unwrap();
                     let mut file_struct = SimpleFile {
                         name: name_to_html(&file.name),
                         content: hbars.render(file.name.to_str().unwrap(), &meta).unwrap(),
@@ -50,7 +58,9 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
                 } else {
                     for (locale, _ctx) in &ctxmap {
                         let templatename = format!("{}_{}", file.name.to_str().unwrap(), &locale);
-                        hbars.register_template_string(templatename.as_str(), &file.content).unwrap();
+                        hbars
+                            .register_template_string(templatename.as_str(), &file.content)
+                            .unwrap();
                         let mut file_struct = SimpleFile {
                             name: name_to_html(&file.name),
                             content: hbars.render(templatename.as_str(), &meta).unwrap(),
