@@ -10,6 +10,7 @@ extern crate handlebars;
 extern crate nya;
 extern crate serde;
 extern crate yaml_rust;
+extern crate fluent;
 
 mod cleanup;
 mod frontmatter;
