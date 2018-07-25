@@ -68,4 +68,18 @@ fn basic_handlebars() {
     let mut html_contents = String::new();
     out_file.read_to_string(&mut html_contents).unwrap();
     assert_eq!(html_contents, "test site!\n");
+    teardown("fixtures/out/basic_handlebars");
+}
+
+#[test]
+fn i18n() {
+    Assert::main_binary()
+        .with_args(&["fixtures/i18n"])
+        .unwrap();
+
+    let de_path = Path::new("fixtures/out/i18n/de/main.html");
+    let en_path = Path::new("fixtures/out/i18n/en/main.html");
+    assert!(de_path.is_file());
+    assert!(en_path.is_file());
+    teardown("fixtures/out/i18n");
 }

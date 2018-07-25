@@ -1,5 +1,5 @@
 name = "ignore test"
 destination = "fixtures/out/ignore"
 ignore = [
-  "*/cool.html"
+  "cool.html"
 ]

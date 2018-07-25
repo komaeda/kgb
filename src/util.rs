@@ -6,7 +6,9 @@ pub fn ext_matches(file: &mut SimpleFile, ext: &str) -> bool {
 }
 
 pub fn rename_ext(file: &mut SimpleFile, ext: &str) {
-    file.abs_path.set_extension(ext);
+    let mut pb = PathBuf::from(&file.name.clone().into_string().unwrap());
+    pb.set_extension("html");
+    file.name = pb.into_os_string();
     file.rel_path.set_extension(ext);
 }
 

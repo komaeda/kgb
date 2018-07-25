@@ -49,8 +49,6 @@ fn main() {
 
     let default_ignore: Vec<String> = Vec::new();
     let ignores = config.get("ignore").unwrap_or(default_ignore);
-    println!("hello!");
-    println!("{:#?}", ignores);
     nya::run(
         vec![
             nya::ignore(ignores),

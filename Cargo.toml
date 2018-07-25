@@ -11,7 +11,7 @@ path = "src/main.rs"
 
 [dependencies]
 comrak = "0.2.13"
-nya = "0.6.0"
+nya = "0.7.0-rc2"
 serde = "1.0.67"
 serde_derive = "1.0.67"
 yaml-rust = "0.4.0"
