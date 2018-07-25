@@ -16,6 +16,7 @@ mod frontmatter;
 mod layouts;
 mod markdown;
 mod util;
+mod hbars;
 
 use clap::{App, Arg};
 use std::path::PathBuf;
@@ -55,6 +56,7 @@ fn main() {
             frontmatter::middleware(),
             layouts::middleware(),
             markdown::middleware(),
+            hbars::middleware(config.clone()),
             cleanup::middleware(),
         ],
         Some(source),

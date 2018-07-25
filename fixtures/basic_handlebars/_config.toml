@@ -1,0 +1,2 @@
+name = "test site!"
+destination = "fixtures/out/basic_handlebars"

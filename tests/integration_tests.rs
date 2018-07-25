@@ -57,3 +57,15 @@ fn ignore() {
     assert!(!html_path.is_file());
     teardown("fixtures/out/ignore");
 }
+
+#[test]
+fn basic_handlebars() {
+    Assert::main_binary()
+        .with_args(&["fixtures/basic_handlebars"])
+        .unwrap();
+
+    let mut out_file = File::open("fixtures/out/basic_handlebars/test.html").unwrap();
+    let mut html_contents = String::new();
+    out_file.read_to_string(&mut html_contents).unwrap();
+    assert_eq!(html_contents, "test site!\n");
+}
