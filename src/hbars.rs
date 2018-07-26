@@ -5,7 +5,7 @@ use nya::{create_middleware, MiddlewareFunction, SimpleFile};
 use std::collections::HashMap;
 use std::ffi::OsString;
 use std::path::PathBuf;
-use util::{ext_matches};
+use util::{ext_matches, path_includes};
 
 pub fn middleware(config: Config) -> MiddlewareFunction {
     create_middleware(move |files: &mut Vec<SimpleFile>| {
@@ -33,7 +33,7 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
         let mut filevec: Vec<SimpleFile> = Vec::new();
 
         for file in &mut files.clone() {
-            if ext_matches(file, "hbs") || ext_matches(file, "html") {
+            if (ext_matches(file, "hbs") && !path_includes(&file.rel_path, "_layouts")) || ext_matches(file, "html") {
                 let name = config
                     .get::<String>("name")
                     .unwrap_or("My Site".to_string());
