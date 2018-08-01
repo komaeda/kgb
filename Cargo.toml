@@ -1,12 +1,12 @@
 [package]
 authors = ["Olivia Hugger <olivia@fastmail.com>"]
 description = "Experimental static site generator"
-name = "kg"
+name = "kgb"
 version = "0.0.5"
 license = "AGPL-3.0+"
 
 [[bin]]
-name = "kg"
+name = "kgb"
 path = "src/main.rs"
 
 [dependencies]

@@ -23,7 +23,7 @@ use clap::{App, Arg};
 use std::path::PathBuf;
 
 fn main() {
-    let matches = App::new("kg")
+    let matches = App::new("kgb")
         .version(crate_version!())
         .author("Olivia Hugger <olivia@fastmail.com>")
         .about("A static site generator")
