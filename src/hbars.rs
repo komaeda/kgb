@@ -63,8 +63,8 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
                     let meta = json!({
                         "site": {
                             "name": name,
-                            "lang": &ctxmap.values().next().unwrap(),
                         },
+                        "l": &ctxmap.values().next().unwrap(),
                     });
                     let mut file_struct = SimpleFile {
                         name: name_to_html(&file.name),
@@ -84,8 +84,8 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
                         let meta = json!({
                             "site": {
                                 "name": name,
-                                "lang": &ctx,
                             },
+                            "l": &ctx,
                         });
                         let mut file_struct = SimpleFile {
                             name: name_to_html(&file.name),
