@@ -208,7 +208,7 @@ dependencies = [
  "comrak 0.2.13 (registry+https://github.com/rust-lang/crates.io-index)",
  "config 0.9.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "handlebars 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "nya 0.7.0-rc2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "nya 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.67 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_derive 1.0.67 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_json 1.0.22 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -262,7 +262,7 @@ dependencies = [
 
 [[package]]
 name = "nya"
-version = "0.7.0-rc2"
+version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "globset 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -606,7 +606,7 @@ dependencies = [
 "checksum log 0.4.2 (registry+https://github.com/rust-lang/crates.io-index)" = "6fddaa003a65722a7fb9e26b0ce95921fe4ba590542ced664d8ce2fa26f9f3ac"
 "checksum memchr 2.0.1 (registry+https://github.com/rust-lang/crates.io-index)" = "796fba70e76612589ed2ce7f45282f5af869e0fdd7cc6199fa1aa1f1d591ba9d"
 "checksum nom 4.0.0 (registry+https://github.com/rust-lang/crates.io-index)" = "898696750eb5c3ce5eb5afbfbe46e7f7c4e1936e19d3e97be4b7937da7b6d114"
-"checksum nya 0.7.0-rc2 (registry+https://github.com/rust-lang/crates.io-index)" = "ba31006ba053a1134d1440b1b04752355bab647028fa9c9e21c878c210cea162"
+"checksum nya 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)" = "28d3b314dc6f32abb95ea304be644b56cdd7e693359aa5336aff2f98e3bebc8b"
 "checksum pest 1.0.6 (registry+https://github.com/rust-lang/crates.io-index)" = "0fce5d8b5cc33983fc74f78ad552b5522ab41442c4ca91606e4236eb4b5ceefc"
 "checksum pest_derive 1.0.7 (registry+https://github.com/rust-lang/crates.io-index)" = "ab94faafeb93f4c5e3ce81ca0e5a779529a602ad5d09ae6d21996bfb8b6a52bf"
 "checksum proc-macro2 0.4.6 (registry+https://github.com/rust-lang/crates.io-index)" = "effdb53b25cdad54f8f48843d67398f7ef2e14f12c1b4cb4effc549a6462a4d6"
