@@ -15,3 +15,18 @@ pub fn rename_ext(file: &mut SimpleFile, ext: &str) {
 pub fn path_includes(path: &PathBuf, segment: &str) -> bool {
     path.iter().any(|s| s.to_str().unwrap() == segment)
 }
+
+pub fn can_be_deleted(path: &PathBuf) -> bool {
+    let mut result = false;
+    if path.extension().unwrap() == "hbs" {
+        result = true;
+    }
+
+    if path.iter().any(|s| {
+        let st = s.to_str().unwrap();
+        st == "_layouts" || st == "_locales" || st == "_config.toml"
+    }) {
+        result = true;
+    }
+    result
+}

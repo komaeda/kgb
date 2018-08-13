@@ -1,21 +1,23 @@
 use nya::{create_middleware, MiddlewareFunction, SimpleFile};
-use util::path_includes;
+use util::can_be_deleted;
+use std::path::PathBuf;
 
 pub fn middleware() -> MiddlewareFunction {
     create_middleware(|files: &mut Vec<SimpleFile>| {
-        let mut items_to_remove: Vec<usize> = Vec::new();
+        let mut items_to_remove: Vec<PathBuf> = Vec::new();
         {
             let filter = files
                 .iter()
-                .filter(|e| path_includes(&e.rel_path, "_layouts"));
+                .filter(|e| can_be_deleted(&e.rel_path));
             for file in filter {
-                let index = files.iter().position(|e| e == file).unwrap();
-                items_to_remove.push(index);
+                items_to_remove.push(file.rel_path.clone());
             }
         }
 
         for i in items_to_remove {
-            files.remove(i);
+            println!("{}", i.to_str().unwrap());
+            let index = files.iter().position(|e| e.rel_path == i).unwrap();
+            files.remove(index);
         }
     })
 }
