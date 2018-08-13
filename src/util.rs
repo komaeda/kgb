@@ -30,3 +30,23 @@ pub fn can_be_deleted(path: &PathBuf) -> bool {
     }
     result
 }
+
+#[test]
+fn ext_matches_test() {
+    use std::ffi::OsString;
+    use std::collections::HashMap;
+
+    let mut file = SimpleFile {
+        name: OsString::from("coolfile.txt"),
+        content: "hello".to_string(),
+        rel_path: PathBuf::from(r"coolfile.txt"),
+        metadata: HashMap::new(),
+    };
+
+    assert!(ext_matches(&mut file, "txt"));
+}
+
+#[test]
+fn path_includes_test() {
+    assert!(path_includes(&PathBuf::from(r"/my/cool/path"), "cool"));
+}
