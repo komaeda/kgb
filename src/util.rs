@@ -33,8 +33,8 @@ pub fn can_be_deleted(path: &PathBuf) -> bool {
 
 #[test]
 fn ext_matches_test() {
-    use std::ffi::OsString;
     use std::collections::HashMap;
+    use std::ffi::OsString;
 
     let mut file = SimpleFile {
         name: OsString::from("coolfile.txt"),
