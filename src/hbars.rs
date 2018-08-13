@@ -93,7 +93,6 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
                             rel_path: locale_rel(&file.rel_path, &locale),
                             metadata: file.metadata.clone(),
                         };
-                        println!("{:?}", file_struct);
                         &filevec.push(file_struct);
                     }
                 }
