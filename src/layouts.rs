@@ -8,10 +8,9 @@ pub fn middleware() -> MiddlewareFunction {
     create_middleware(|files: &mut Vec<SimpleFile>| {
         let mut hbars = Handlebars::new();
         {
-            let layout_files = files
-                .iter()
-                .filter(|e| path_includes(&e.rel_path, "_layouts"));
-            for file in layout_files {
+            let layout_files_no_fm = files.iter().filter(|e| filter_helper(e, false));
+
+            for file in layout_files_no_fm {
                 let template_name = &file.rel_path.file_stem().unwrap().to_str().unwrap();
                 hbars
                     .register_template_string(template_name, &file.content)
@@ -31,4 +30,19 @@ pub fn middleware() -> MiddlewareFunction {
             }
         }
     })
+}
+
+fn filter_helper(e: &SimpleFile, with_fm: bool) -> bool {
+    let mut has_layout = false;
+    let fm = e.metadata.get("frontmatter");
+    if let Some(frontmatter) = fm {
+        let de = deserialize(frontmatter);
+        if let Some(e) = de[0].as_hash().unwrap().get(&Yaml::from_str("layout")) {
+            has_layout = true;
+        }
+    }
+    if with_fm {
+        has_layout = !has_layout;
+    }
+    path_includes(&e.rel_path, "_layouts") && !has_layout
 }
