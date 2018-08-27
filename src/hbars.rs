@@ -36,7 +36,8 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
             |h: &Helper, _: &Handlebars, _: &Context, _: &mut RenderContext, out: &mut Output| {
                 let key = h.param(0).unwrap();
                 let ctx = h.param(1).unwrap();
-                let value = ctx.value()
+                let value = ctx
+                    .value()
                     .get(key.value().as_str().unwrap())
                     .unwrap()
                     .as_str()
