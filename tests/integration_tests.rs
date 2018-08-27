@@ -55,7 +55,7 @@ fn layouts() {
     let mut html_file = File::open("fixtures/out/layouts/test.html").unwrap();
     let mut html_contents = String::new();
     html_file.read_to_string(&mut html_contents).unwrap();
-    assert_eq!(html_contents, "test\n\ncool! hello");
+    assert_eq!(html_contents, "test\n\ncool! hello\n");
     teardown("fixtures/out/layouts");
 }
 
