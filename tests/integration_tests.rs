@@ -33,6 +33,18 @@ fn markdown() {
 }
 
 #[test]
+fn markdown_options() {
+    Assert::main_binary()
+        .with_args(&["fixtures/markdown_options"])
+        .unwrap();
+    let mut html_file = File::open("fixtures/out/markdown_options/test.html").unwrap();
+    let mut html_contents = String::new();
+    html_file.read_to_string(&mut html_contents).unwrap();
+    assert_eq!(html_contents, "<p>’”</p>\n");
+    teardown("fixtures/out/markdown_options");
+}
+
+#[test]
 fn layouts() {
     Assert::main_binary()
         .with_args(&["fixtures/layouts"])

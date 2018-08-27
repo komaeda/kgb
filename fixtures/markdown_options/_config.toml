@@ -1,0 +1,4 @@
+destination = "fixtures/out/markdown_options"
+
+[markdown]
+smart = true

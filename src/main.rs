@@ -54,7 +54,7 @@ fn main() {
             nya::ignore(ignores),
             frontmatter::middleware(),
             layouts::middleware(),
-            markdown::middleware(),
+            markdown::middleware(config.clone()),
             hbars::middleware(config.clone()),
             cleanup::middleware(),
         ],
