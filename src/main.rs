@@ -20,7 +20,7 @@ mod layouts;
 mod markdown;
 mod util;
 
-use clap::{App, Arg};
+use clap::{App, Arg, SubCommand};
 use std::path::PathBuf;
 
 fn main() {
@@ -28,39 +28,49 @@ fn main() {
         .version(crate_version!())
         .author("Olivia Hugger <olivia@fastmail.com>")
         .about("A static site generator")
-        .arg(
-            Arg::with_name("SOURCE")
-                .help("The source directory to generate a site from")
-                .required(true)
-                .index(1),
-        )
+        .subcommand(SubCommand::with_name("build")
+                    .about("Builds a site")
+                    .arg(
+                        Arg::with_name("SOURCE")
+                            .help("The source directory to generate a site from")
+                            .required(false)
+                            .index(1)))
         .get_matches();
 
-    let source = matches.value_of("SOURCE").unwrap();
+    if let Some(matches) = matches.subcommand_matches("build") {
+        let cdir = std::env::current_dir().unwrap();
+        let mut source;
 
-    let mut confpath = PathBuf::from(source);
-    confpath.push("_config.toml");
-    let mut config = config::Config::default();
-    config
-        .merge(config::File::with_name(confpath.to_str().unwrap()))
-        .unwrap();
+        if matches.is_present("SOURCE") {
+            source = matches.value_of("SOURCE").unwrap();
+        } else {
+            source = cdir.to_str().unwrap();
+        }
 
-    let default_dest = PathBuf::from("_site");
-    let destination = config.get::<PathBuf>("destination").unwrap_or(default_dest);
+        let mut confpath = PathBuf::from(source);
+        confpath.push("_config.toml");
+        let mut config = config::Config::default();
+        config
+            .merge(config::File::with_name(confpath.to_str().unwrap()))
+            .unwrap();
 
-    let default_ignore: Vec<String> = Vec::new();
-    let ignores = config.get("ignore").unwrap_or(default_ignore);
-    nya::run(
-        vec![
-            nya::ignore(ignores),
-            frontmatter::middleware(),
-            layouts::middleware(),
-            filei18n::middleware(),
-            markdown::middleware(config.clone()),
-            hbars::middleware(config.clone()),
-            cleanup::middleware(),
-        ],
-        Some(source),
-        Some(destination.to_str().unwrap()),
-    ).unwrap();
+        let default_dest = PathBuf::from("_site");
+        let destination = config.get::<PathBuf>("destination").unwrap_or(default_dest);
+
+        let default_ignore: Vec<String> = vec![String::from(".git/*")];
+        let ignores = config.get("ignore").unwrap_or(default_ignore);
+        nya::run(
+            vec![
+                nya::ignore(ignores),
+                frontmatter::middleware(),
+                layouts::middleware(),
+                filei18n::middleware(),
+                markdown::middleware(config.clone()),
+                hbars::middleware(config.clone()),
+                cleanup::middleware(),
+            ],
+            Some(source),
+            Some(destination.to_str().unwrap()),
+        ).unwrap();
+    }
 }
