@@ -28,13 +28,14 @@ fn main() {
         .version(crate_version!())
         .author("Olivia Hugger <olivia@fastmail.com>")
         .about("A static site generator")
-        .subcommand(SubCommand::with_name("build")
-                    .about("Builds a site")
-                    .arg(
-                        Arg::with_name("SOURCE")
-                            .help("The source directory to generate a site from")
-                            .required(false)
-                            .index(1)))
+        .subcommand(
+            SubCommand::with_name("build").about("Builds a site").arg(
+                Arg::with_name("SOURCE")
+                    .help("The source directory to generate a site from")
+                    .required(false)
+                    .index(1),
+            ),
+        )
         .get_matches();
 
     if let Some(matches) = matches.subcommand_matches("build") {
