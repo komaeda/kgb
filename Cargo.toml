@@ -2,7 +2,7 @@
 authors = ["Olivia Hugger <olivia@fastmail.com>"]
 description = "Experimental static site generator"
 name = "kgb"
-version = "0.0.9"
+version = "0.0.10"
 license = "AGPL-3.0+"
 
 [[bin]]
