@@ -13,6 +13,7 @@ extern crate toml;
 extern crate yaml_rust;
 
 mod cleanup;
+mod filei18n;
 mod frontmatter;
 mod hbars;
 mod layouts;
@@ -54,6 +55,7 @@ fn main() {
             nya::ignore(ignores),
             frontmatter::middleware(),
             layouts::middleware(),
+            filei18n::middleware(),
             markdown::middleware(config.clone()),
             hbars::middleware(config.clone()),
             cleanup::middleware(),

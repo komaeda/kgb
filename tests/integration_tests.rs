@@ -93,3 +93,16 @@ fn i18n() {
     assert!(en_path.is_file());
     teardown("fixtures/out/i18n");
 }
+
+#[test]
+fn filei18n() {
+    Assert::main_binary()
+        .with_args(&["fixtures/filei18n"])
+        .unwrap();
+
+    let de_path = Path::new("fixtures/out/filei18n/de/cool.html");
+    let untranslated_path = Path::new("fixtures/out/filei18n/normalfile.html");
+    assert!(de_path.is_file());
+    assert!(untranslated_path.is_file());
+    teardown("fixtures/out/filei18n");
+}
