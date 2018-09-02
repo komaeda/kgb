@@ -14,7 +14,11 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
             .get::<Vec<String>>("locales")
             .unwrap_or(vec![String::from("en")]);
         let mut ctxmap: HashMap<&str, Value> = HashMap::new();
+
         if locales.len() == 1 {
+            // This assumes that if you only have one locale, you don't need
+            // any specific locale files, and therefore loads an empty default
+            // locale.
             let t = "".parse::<Value>().unwrap();
             &ctxmap.insert("en", t);
         } else {
@@ -32,6 +36,7 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
             }
         }
 
+        // This is the Handlebars helper that is used to pull locale-specific keys.
         let t_helper =
             |h: &Helper, _: &Handlebars, _: &Context, _: &mut RenderContext, out: &mut Output| {
                 let key = h.param(0).unwrap();
