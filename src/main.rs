@@ -57,8 +57,9 @@ fn main() {
         let default_dest = PathBuf::from("_site");
         let destination = config.get::<PathBuf>("destination").unwrap_or(default_dest);
 
-        let default_ignore: Vec<String> = vec![String::from(".git/*")];
-        let ignores = config.get("ignore").unwrap_or(default_ignore);
+        let mut ignores: Vec<String> = vec![String::from(".git/*")];
+        let mut config_ignores: Vec<String> = config.get("ignore").unwrap_or(Vec::new());
+        ignores.append(&mut config_ignores);
         nya::run(
             vec![
                 nya::ignore(ignores),
