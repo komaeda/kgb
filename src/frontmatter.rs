@@ -56,7 +56,6 @@ fn serializer_test() {
     let text = "---\nfoo: bar\n---\n\nContent";
     let (matter, _) = lexer(text.to_string()).unwrap();
     let dese = deserialize(&matter);
-    println!("{:?}", dese);
     let se = serialize(&dese);
     assert_eq!(dese[0]["foo"].as_str().unwrap(), "bar");
     assert_eq!(se, "---\nfoo: bar");
