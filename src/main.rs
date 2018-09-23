@@ -38,9 +38,8 @@ fn main() {
                     .required(false)
                     .index(1),
             ),
-        )
-        .get_matches();
-    
+        ).get_matches();
+
     log("kgb", &format!("Version {}", crate_version!()));
     if let Some(matches) = matches.subcommand_matches("build") {
         log("kgb", "Starting build...");
@@ -81,6 +80,9 @@ fn main() {
             Some(destination.to_str().unwrap()),
         ).unwrap();
 
-        log("kgb", &format!("Build finished in {}s", now.elapsed().unwrap().as_secs()));
+        log(
+            "kgb",
+            &format!("Build finished in {}s", now.elapsed().unwrap().as_secs()),
+        );
     }
 }
