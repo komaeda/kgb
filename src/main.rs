@@ -9,6 +9,7 @@ extern crate config;
 extern crate handlebars;
 extern crate nya;
 extern crate serde;
+extern crate term;
 extern crate toml;
 extern crate yaml_rust;
 
@@ -22,6 +23,8 @@ mod util;
 
 use clap::{App, Arg, SubCommand};
 use std::path::PathBuf;
+use std::time::SystemTime;
+use util::log;
 
 fn main() {
     let matches = App::new("kgb")
@@ -37,8 +40,11 @@ fn main() {
             ),
         )
         .get_matches();
-
+    
+    log("kgb", &format!("Version {}", crate_version!()));
     if let Some(matches) = matches.subcommand_matches("build") {
+        log("kgb", "Starting build...");
+        let now = SystemTime::now();
         let cdir = std::env::current_dir().unwrap();
         let mut source;
 
@@ -74,5 +80,7 @@ fn main() {
             Some(source),
             Some(destination.to_str().unwrap()),
         ).unwrap();
+
+        log("kgb", &format!("Build finished in {}s", now.elapsed().unwrap().as_secs()));
     }
 }

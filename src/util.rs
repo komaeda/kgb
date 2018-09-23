@@ -1,5 +1,6 @@
 use nya::SimpleFile;
 use std::path::PathBuf;
+use term;
 
 pub fn ext_matches(file: &mut SimpleFile, ext: &str) -> bool {
     file.rel_path.to_str().unwrap().ends_with(ext)
@@ -48,6 +49,15 @@ pub fn is_iso6391_code(s: &str) -> bool {
         "xh", "yi", "yo", "za", "zu",
     ];
     codes.iter().any(|c| c == &s)
+}
+
+pub fn log(prefix: &str, msg: &str) {
+    let mut t = term::stdout().unwrap();
+    t.attr(term::Attr::Bold).unwrap();
+    t.fg(term::color::MAGENTA).unwrap();
+    write!(t, "{} ", prefix).unwrap();
+    t.reset().unwrap();
+    writeln!(t, "{}", msg).unwrap();
 }
 
 #[test]
