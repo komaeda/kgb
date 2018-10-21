@@ -13,7 +13,7 @@ pub fn middleware() -> MiddlewareFunction {
                 let (last, rest) = split_filename.split_last().unwrap();
                 let (last2, rest2) = rest.split_last().unwrap();
 
-                if rest2.len() > 0 && is_iso6391_code(last2) && last == &"md" {
+                if !rest2.is_empty() && is_iso6391_code(last2) && last == &"md" {
                     let new_name = vec![rest2.join(".").as_str(), last].join(".");
                     let mut new_path = PathBuf::from(file.rel_path.to_str().unwrap());
                     new_path.pop();

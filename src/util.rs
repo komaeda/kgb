@@ -18,15 +18,14 @@ pub fn path_includes(path: &PathBuf, segment: &str) -> bool {
 }
 
 pub fn can_be_deleted(path: &PathBuf) -> bool {
-    let mut result = false;
-    if path.extension().unwrap() == "hbs" {
-        result = true;
-    }
+    let mut result = path.extension().unwrap() == "hbs";
 
-    if path.iter().any(|s| {
+    let has_path_segment = path.iter().any(|s| {
         let st = s.to_str().unwrap();
         st == "_layouts" || st == "_locales" || st == "_config.toml"
-    }) {
+    });
+
+    if has_path_segment {
         result = true;
     }
     result

@@ -36,7 +36,7 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
             {
                 let name = config
                     .get::<String>("name")
-                    .unwrap_or("My Site".to_string());
+                    .unwrap_or_else(|_| "My Site".to_string());
 
                 if ctxmap.len() == 1 {
                     hbars
@@ -55,7 +55,7 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
                         metadata: file.metadata.clone(),
                     };
                     file_struct.rel_path.set_extension("html");
-                    &filevec.push(file_struct);
+                    filevec.push(file_struct);
                 } else {
                     for (locale, ctx) in &ctxmap {
                         let templatename = format!("{}_{}", file.name.to_str().unwrap(), &locale);
@@ -75,7 +75,7 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
                             rel_path: locale_rel(&file.rel_path, locale),
                             metadata: file.metadata.clone(),
                         };
-                        &filevec.push(file_struct);
+                        filevec.push(file_struct);
                     }
                 }
             }
@@ -87,7 +87,7 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
     })
 }
 
-fn locale_rel(path: &PathBuf, locale: &String) -> PathBuf {
+fn locale_rel(path: &PathBuf, locale: &str) -> PathBuf {
     let mut p = PathBuf::from(format!("/{}", locale));
     p.push(path);
     p.set_extension("html");
