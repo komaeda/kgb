@@ -45,13 +45,12 @@ fn main() {
         log("kgb", "Starting build...");
         let now = SystemTime::now();
         let cdir = std::env::current_dir().unwrap();
-        let mut source;
 
-        if matches.is_present("SOURCE") {
-            source = matches.value_of("SOURCE").unwrap();
+        let source = if matches.is_present("SOURCE") {
+            matches.value_of("SOURCE").unwrap()
         } else {
-            source = cdir.to_str().unwrap();
-        }
+            cdir.to_str().unwrap()
+        };
 
         let mut confpath = PathBuf::from(source);
         confpath.push("_config.toml");
