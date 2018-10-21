@@ -1,40 +1,16 @@
 use config::Config;
 use handlebars::{Context, Handlebars, Helper, Output, RenderContext};
 use nya::{create_middleware, MiddlewareFunction, SimpleFile};
-use std::collections::HashMap;
 use std::ffi::OsString;
 use std::path::PathBuf;
-use toml::Value;
 use util::{ext_matches, path_includes};
+
+mod locales;
 
 pub fn middleware(config: Config) -> MiddlewareFunction {
     create_middleware(move |files: &mut Vec<SimpleFile>| {
         let mut hbars = Handlebars::new();
-        let locales = config
-            .get::<Vec<String>>("locales")
-            .unwrap_or(vec![String::from("en")]);
-        let mut ctxmap: HashMap<&str, Value> = HashMap::new();
-
-        if locales.len() == 1 {
-            // This assumes that if you only have one locale, you don't need
-            // any specific locale files, and therefore loads an empty default
-            // locale.
-            let t = "".parse::<Value>().unwrap();
-            &ctxmap.insert("en", t);
-        } else {
-            for (i, locale) in locales.iter().enumerate() {
-                let t;
-                let locale_file = files
-                    .iter()
-                    .find(|&f| f.name == OsString::from(format!("{}.toml", locale)));
-                if let Some(f) = locale_file {
-                    t = (&f.content).parse::<Value>().unwrap();
-                } else {
-                    t = "".parse::<Value>().unwrap();
-                }
-                &ctxmap.insert(&locales[i], t);
-            }
-        }
+        let ctxmap = locales::generate_locale_map(files, &config);
 
         // This is the Handlebars helper that is used to pull locale-specific keys.
         let t_helper =
@@ -96,7 +72,7 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
                         let mut file_struct = SimpleFile {
                             name: name_to_html(&file.name),
                             content: hbars.render(templatename.as_str(), &meta).unwrap(),
-                            rel_path: locale_rel(&file.rel_path, &locale),
+                            rel_path: locale_rel(&file.rel_path, locale),
                             metadata: file.metadata.clone(),
                         };
                         &filevec.push(file_struct);
@@ -111,7 +87,7 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
     })
 }
 
-fn locale_rel(path: &PathBuf, locale: &str) -> PathBuf {
+fn locale_rel(path: &PathBuf, locale: &String) -> PathBuf {
     let mut p = PathBuf::from(format!("/{}", locale));
     p.push(path);
     p.set_extension("html");
