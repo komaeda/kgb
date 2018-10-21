@@ -1,13 +1,13 @@
-use toml::Value;
+use config::Config;
+use nya::SimpleFile;
 use std::collections::HashMap;
 use std::ffi::OsString;
-use nya::SimpleFile;
-use config::Config;
+use toml::Value;
 
 pub fn generate_locale_map(files: &mut Vec<SimpleFile>, config: &Config) -> HashMap<String, Value> {
     let locales = config
-            .get::<Vec<String>>("locales")
-            .unwrap_or(vec![String::from("en")]);
+        .get::<Vec<String>>("locales")
+        .unwrap_or(vec![String::from("en")]);
     let mut ctxmap: HashMap<String, Value> = HashMap::new();
     if locales.len() == 1 {
         // This assumes that if you only have one locale, you don't need
