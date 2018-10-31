@@ -3,6 +3,7 @@ use handlebars::{Context, Handlebars, Helper, Output, RenderContext};
 use nya::{create_middleware, MiddlewareFunction, SimpleFile};
 use std::ffi::OsString;
 use std::path::PathBuf;
+use toml::Value;
 use util::{ext_matches, path_includes};
 
 mod locales;
@@ -28,6 +29,7 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
             };
         hbars.register_helper("t", Box::new(t_helper));
 
+        // Register the templates
         for file in &mut files.clone() {
             if (ext_matches(file, "hbs") && !path_includes(&file.rel_path, "_layouts"))
                 || ext_matches(file, "html")
@@ -49,6 +51,7 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
 
         let mut filevec: Vec<SimpleFile> = Vec::new();
 
+        // Render the templates
         for file in &mut files.clone() {
             if (ext_matches(file, "hbs") && !path_includes(&file.rel_path, "_layouts"))
                 || ext_matches(file, "html")
@@ -58,36 +61,32 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
                     .unwrap_or_else(|_| "My Site".to_string());
 
                 if ctxmap.len() == 1 {
-                    let meta = json!({
-                        "site": {
-                            "name": name,
-                        },
-                        "l": &ctxmap.values().next().unwrap(),
-                    });
-                    let mut file_struct = SimpleFile {
-                        name: name_to_html(&file.name),
-                        content: hbars.render(file.name.to_str().unwrap(), &meta).unwrap(),
-                        rel_path: file.rel_path.clone(),
-                        metadata: file.metadata.clone(),
-                    };
+                    let (locale, ctx) = ctxmap.iter().next().unwrap();
+                    let tname = file.name.to_str().unwrap();
+                    let mut file_struct = gen_file_struct(
+                        &file,
+                        &config,
+                        &tname.to_string(),
+                        &hbars,
+                        &locale,
+                        &ctx,
+                        true,
+                    );
                     file_struct.rel_path.set_extension("html");
                     filevec.push(file_struct);
                 } else {
                     for (locale, ctx) in &ctxmap {
                         let templatename = format!("{}_{}", file.name.to_str().unwrap(), &locale);
 
-                        let meta = json!({
-                            "site": {
-                                "name": name,
-                            },
-                            "l": &ctx,
-                        });
-                        let mut file_struct = SimpleFile {
-                            name: name_to_html(&file.name),
-                            content: hbars.render(templatename.as_str(), &meta).unwrap(),
-                            rel_path: locale_rel(&file.rel_path, locale),
-                            metadata: file.metadata.clone(),
-                        };
+                        let file_struct = gen_file_struct(
+                            file,
+                            &config,
+                            &templatename,
+                            &hbars,
+                            &locale,
+                            &ctx,
+                            false,
+                        );
                         filevec.push(file_struct);
                     }
                 }
@@ -98,6 +97,37 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
             files.push(f);
         }
     })
+}
+
+fn gen_file_struct(
+    file: &SimpleFile,
+    config: &Config,
+    tname: &String,
+    hbars: &Handlebars,
+    locale: &String,
+    ctx: &Value,
+    single_locale: bool,
+) -> SimpleFile {
+    let meta = json!({
+        "site": {
+            "name": config.get::<String>("name").unwrap_or_else(|_| "My Site".to_string()),
+        },
+        "l": ctx,
+    });
+
+    let relpath = if single_locale {
+        file.rel_path.clone()
+    } else {
+        locale_rel(&file.rel_path, locale)
+    };
+
+    let file_struct = SimpleFile {
+        name: name_to_html(&file.name),
+        content: hbars.render(tname, &meta).unwrap(),
+        rel_path: relpath,
+        metadata: file.metadata.clone(),
+    };
+    file_struct
 }
 
 fn locale_rel(path: &PathBuf, locale: &str) -> PathBuf {
