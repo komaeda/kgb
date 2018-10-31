@@ -37,7 +37,12 @@ fn filter_helper(e: &SimpleFile, with_fm: bool) -> bool {
     let fm = e.metadata.get("frontmatter");
     if let Some(frontmatter) = fm {
         let de = deserialize(frontmatter);
-        if de[0].as_hash().unwrap().get(&Yaml::from_str("layout")).is_some() {
+        if de[0]
+            .as_hash()
+            .unwrap()
+            .get(&Yaml::from_str("layout"))
+            .is_some()
+        {
             has_layout = true;
         }
     }

@@ -28,6 +28,25 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
             };
         hbars.register_helper("t", Box::new(t_helper));
 
+        for file in &mut files.clone() {
+            if (ext_matches(file, "hbs") && !path_includes(&file.rel_path, "_layouts"))
+                || ext_matches(file, "html")
+            {
+                if ctxmap.len() == 1 {
+                    hbars
+                        .register_template_string(file.name.to_str().unwrap(), &file.content)
+                        .unwrap();
+                } else {
+                    for (locale, ctx) in &ctxmap {
+                        let templatename = format!("{}_{}", file.name.to_str().unwrap(), &locale);
+                        hbars
+                            .register_template_string(templatename.as_str(), &file.content)
+                            .unwrap();
+                    }
+                }
+            }
+        }
+
         let mut filevec: Vec<SimpleFile> = Vec::new();
 
         for file in &mut files.clone() {
@@ -39,9 +58,6 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
                     .unwrap_or_else(|_| "My Site".to_string());
 
                 if ctxmap.len() == 1 {
-                    hbars
-                        .register_template_string(file.name.to_str().unwrap(), &file.content)
-                        .unwrap();
                     let meta = json!({
                         "site": {
                             "name": name,
@@ -59,9 +75,6 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
                 } else {
                     for (locale, ctx) in &ctxmap {
                         let templatename = format!("{}_{}", file.name.to_str().unwrap(), &locale);
-                        hbars
-                            .register_template_string(templatename.as_str(), &file.content)
-                            .unwrap();
 
                         let meta = json!({
                             "site": {
