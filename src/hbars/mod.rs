@@ -39,7 +39,7 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
                         .register_template_string(file.name.to_str().unwrap(), &file.content)
                         .unwrap();
                 } else {
-                    for (locale, ctx) in &ctxmap {
+                    for (locale, _) in &ctxmap {
                         let templatename = format!("{}_{}", file.name.to_str().unwrap(), &locale);
                         hbars
                             .register_template_string(templatename.as_str(), &file.content)
@@ -56,10 +56,6 @@ pub fn middleware(config: Config) -> MiddlewareFunction {
             if (ext_matches(file, "hbs") && !path_includes(&file.rel_path, "_layouts"))
                 || ext_matches(file, "html")
             {
-                let name = config
-                    .get::<String>("name")
-                    .unwrap_or_else(|_| "My Site".to_string());
-
                 if ctxmap.len() == 1 {
                     let (locale, ctx) = ctxmap.iter().next().unwrap();
                     let tname = file.name.to_str().unwrap();
